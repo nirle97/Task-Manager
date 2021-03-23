@@ -10,10 +10,14 @@ tickets.get("/", (req, res) => {
         Tickets
         .find()
         .then(tickets => {
-            const filteredTickets = tickets.filter(ticket => 
-                ticket.title.includes(req.query.searchText)
-            )
-            res.status(200).send(filteredTickets)
+            if (req.query.searchText) {
+                const filteredTickets = tickets.filter(ticket => 
+                    ticket.title.includes(req.query.searchText)
+                )
+                res.status(200).send(filteredTickets)
+            } else {
+                res.status(200).send(tickets)
+            }
         })
     } catch(e) {
         console.log(e);
