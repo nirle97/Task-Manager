@@ -1,0 +1,6 @@
+PATCH http://localhost:8080/api/tickets/6059e289ca25843484d23dc0/aaaadone
+Content-Type: "application/json"
+
+{
+    "done": true
+}
