@@ -38,6 +38,4 @@ tickets.patch("/:ticketId/:status", async (req, res) => {
     }
   })
 
-
-
 module.exports = tickets;
