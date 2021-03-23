@@ -3,10 +3,10 @@ import '../styles/Ticket.css';
 import React, {useState, useEffect} from "react";
 import env from "react-dotenv";
 
-function Ticket({title, content, userEmail, creationTime, labels}) {
-    const [allLabels, setAllLabels] = useState(labels)
+function Ticket({title, content, userEmail, creationTime, labels, hideTicket}) {
     return (
         <div className="ticket">
+            <button onClick={hideTicket} className="hideTicketButton">Hide</button>
             <h3 className="ticket-title">{title}</h3>
             <p className="ticket-content">{content}</p>
             <span className="info">

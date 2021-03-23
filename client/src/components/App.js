@@ -6,9 +6,10 @@ import Ticket from "./Ticket"
 function App() {
   const [tickets, setTickets] = useState([])
   const [ticketsToDisplay, setTicketsToDisplay] = useState([])
+  const [hiddenCounter, setHiddenCounter] = useState(0)
+  const [hiddenTicketsArr, setHiddenTicketsArr] = useState([])
 
   useEffect(() => {
-    console.log("useEffect");
     axios
     .get("/api/tickets")
     .then(tickets => {
@@ -24,9 +25,23 @@ const filterSearch = (e) => {
   setTicketsToDisplay(filterdTickets)
 }
 
+const hideTicket = (e) => {
+  e.target.parentElement.hidden = true
+  setHiddenCounter(hiddenCounter + 1)
+  setHiddenTicketsArr(hiddenTicketsArr.concat([e.target.parentElement]))
+}
+
+const restoreTickets = () => {
+  hiddenTicketsArr.map(ticket => ticket.hidden = false)
+  setHiddenTicketsArr([])
+  setHiddenCounter(0)
+}
+
   return (
     <div className="App">
     <input id="searchInput" type="text" onChange={filterSearch}></input>
+    <p className="hideTicketsCounter">{hiddenCounter} hidden tickets</p>
+    <button onClick={restoreTickets} id="restoreHideTickets">Restore Hidden Tickets</button>
       {ticketsToDisplay.map((ticket, i) => 
         <Ticket 
           key={`ticket - ${i}`}
@@ -36,6 +51,7 @@ const filterSearch = (e) => {
           done={ticket.done}
           creationTime={ticket.creationTime}
           labels={ticket.labels}
+          hideTicket={hideTicket}
         />
       )}
     </div>
