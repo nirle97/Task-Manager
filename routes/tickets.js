@@ -11,8 +11,11 @@ tickets.get("/", (req, res) => {
         .find()
         .then(tickets => {
             if (req.query.searchText) {
-                const filteredTickets = tickets.filter(ticket => 
-                    ticket.title.includes(req.query.searchText)
+                const filteredTickets = tickets.filter(ticket => {
+                    let title = ticket.title.toLowerCase();
+                    let searchedText = req.query.searchText.toLowerCase();
+                    return title.includes(searchedText)
+                } 
                 )
                 res.status(200).send(filteredTickets)
             } else {

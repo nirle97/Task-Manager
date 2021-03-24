@@ -9,10 +9,7 @@ function Ticket({title, content, userEmail, creationTime, labels, hideTicket}) {
             <button onClick={hideTicket} className="hideTicketButton">Hide</button>
             <h3 className="ticket-title">{title}</h3>
             <p className="ticket-content">{content}</p>
-            <span className="info">
-                <p className="user-email">By {userEmail} | </p>
-                <p className="creation-time">{creationTime}</p>
-            </span>
+            <span className="info">{userEmail} | {creationTime}</span>
             {labels.length > 0 &&
                 labels.map((label, i) => <span key={`label - ${i}`} className="label">{label} </span>)
             }

@@ -20,10 +20,15 @@ function App() {
 
 const filterSearch = (e) => {
   const searchedText = e.target.value;
-  const filterdTickets = tickets.filter(ticket => 
-    ticket.title.includes(searchedText))
-  setTicketsToDisplay(filterdTickets)
+  axios.get(`/api/tickets/?searchText=${searchedText}`)
+  .then(filterSearch => setTicketsToDisplay(filterSearch.data))
 }
+// const filterSearch = (e) => {
+//   const searchedText = e.target.value;
+//   const filterdTickets = tickets.filter(ticket => 
+//     ticket.title.includes(searchedText))
+//   setTicketsToDisplay(filterdTickets)
+// }
 
 const hideTicket = (e) => {
   e.target.parentElement.hidden = true

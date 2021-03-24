@@ -17,7 +17,7 @@ const ticketsSchema = new mongoose.Schema({
     },
     done: {
       type: Boolean,
-      required: true
+      required: false
     },
     creationTime: {
       type: Number,
