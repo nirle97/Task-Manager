@@ -39,7 +39,7 @@ jest.setTimeout(30000);
 const projectName = '1.Ticket Manager UI';
 describe(projectName, () => {
   beforeAll(async () => {
-    browser = await puppeteer.launch({headless: false, slowMo:700});
+    browser = await puppeteer.launch({headless: false, slowMo:0});
     page = await browser.newPage();
     useNock(page, ['http://localhost:3000/api']);
 
@@ -58,8 +58,8 @@ describe(projectName, () => {
     const currentTitle = await page.title();
     expect(currentTitle).toBe('Tickets Manager');
   })
-  test.only('The tickets manager load tickets from 8080 and show them on page with labels', async () => {
-    const getAllTicketsMock = await nock('http://localhost:3000/', { allowUnmocked: true })
+  test('The tickets manager load tickets from 8080 and show them on page with labels', async () => {
+    const getAllTicketsMock = nock('http://localhost:3000/', { allowUnmocked: true })
       .get('/api/tickets')
       .query(() => true)
       .reply(200, mockData);
@@ -68,15 +68,15 @@ describe(projectName, () => {
     expect(elements.length).toBe(mockData.length);
     expect(getAllTicketsMock.isDone()).toBe(true)
 
-    let firstLabel = await page.$('.ticket .label');
+    let firstLabel = await page.$(['.ticket', '.label']);
     let firstLabelValue = await (await firstLabel.getProperty('innerText')).jsonValue();
     expect(firstLabelValue).toBe(mockData[0].labels[0])
-  });
+  }, 30000);
 
   test('The user can filter tickets by typing on input with id - searchInput', async () => {
     const filterText = 'h';
-    const getFilteredTicketsMock = await nock('http://localhost:3000/', { allowUnmocked: true })
-      .get('/api/tickets')
+    const getFilteredTicketsMock = nock('http://localhost:3000/', { allowUnmocked: true })
+      .get('/api/tickets/')
       .query(({ searchText }) => {
         return filterText === searchText;
       })

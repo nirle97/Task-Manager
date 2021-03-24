@@ -1,7 +1,5 @@
 const { Router } = require("express");
 const tickets = Router();
-const mongoose = require("mongoose");
-const ObjectId = require('mongodb').ObjectID;
 const Tickets = require("../mongo");
 require('dotenv').config()
 

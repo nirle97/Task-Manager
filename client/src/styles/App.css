@@ -40,7 +40,7 @@ body {
     border-image-slice: 1;
 }
 
-.hideTicketsCounter {
+#hideTicketsCounter {
     display: flex;
     align-items: center;
     justify-content: center;

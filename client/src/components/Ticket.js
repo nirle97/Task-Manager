@@ -1,14 +1,12 @@
-import axios from "axios"
 import '../styles/Ticket.css';
-import React, {useState, useEffect} from "react";
-import env from "react-dotenv";
+import React, { useEffect } from "react";
 
 function Ticket({title, content, userEmail, creationTime, labels, hideTicket, filterByLabel}) {
     return (
         <div className="ticket">
             <h3 className="ticket-title">{title}</h3>
             <span>
-                {labels.length > 0 &&
+                {labels &&
                     labels.map((label, i) => <span onClick={filterByLabel} key={`label - ${i}`} className="label">{label} </span>)
                 }
             </span>

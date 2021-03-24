@@ -47,14 +47,17 @@ const filterSearch = (e) => {
 }
 
 const hideTicket = (e) => {
-  e.target.parentElement.style.display = "none"
+  // e.target.parentElement.style.display = "none"
+  e.target.parentElement.remove()
   setHiddenCounter(hiddenCounter + 1)
   setHiddenTicketsArr(hiddenTicketsArr.concat([e.target.parentElement]))
   setTicketsToDisplayLength(ticketsToDisplay.length - (hiddenTicketsArr.concat([e.target.parentElement])).length)
 }
 
 const restoreTickets = () => {
-  hiddenTicketsArr.map(ticket => ticket.style.display = "block")
+  // hiddenTicketsArr.map(ticket => ticket.style.display = "block")
+  const parentDiv = document.querySelector(".tickets-container")
+  hiddenTicketsArr.map(ticket => parentDiv.prepend(ticket))
   setHiddenTicketsArr([])
   setHiddenCounter(0)
   setTicketsToDisplayLength(ticketsToDisplay.length)
@@ -77,7 +80,7 @@ const showAll = () => {
     <div className="App">
       <h1 className="page-title">Task Manager</h1>
       <input id="searchInput" type="text" onChange={filterSearch} placeholder="Filter Results"></input>
-      <p className="hideTicketsCounter">
+      <p id="hideTicketsCounter">
         showing {ticketsToDisplayLength} results ({hiddenCounter} hidden tickets) -
         <a onClick={restoreTickets} id="restoreHideTickets">Restore</a>
       </p>
@@ -86,19 +89,21 @@ const showAll = () => {
         filterByLabel={filterByLabel}
         showAll={showAll}
       />
-      {ticketsToDisplay.map((ticket, i) => 
-        <Ticket 
-          key={`ticket - ${i}`}
-          title={ticket.title}
-          content={ticket.content}
-          userEmail={ticket.userEmail}
-          done={ticket.done}
-          creationTime={ticket.creationTime}
-          labels={ticket.labels}
-          hideTicket={hideTicket}
-          filterByLabel={filterByLabel}
-        />
-      )}
+      <div className="tickets-container">
+        {ticketsToDisplay.map((ticket, i) => 
+          <Ticket 
+            key={`ticket - ${i}`}
+            title={ticket.title}
+            content={ticket.content}
+            userEmail={ticket.userEmail}
+            done={ticket.done}
+            creationTime={ticket.creationTime}
+            labels={ticket.labels}
+            hideTicket={hideTicket}
+            filterByLabel={filterByLabel}
+          />
+        )}
+      </div>
     </div>
   )
 }

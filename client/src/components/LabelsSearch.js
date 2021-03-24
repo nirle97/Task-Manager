@@ -6,7 +6,7 @@ function LabelsSearch({labels, filterByLabel, showAll}) {
     const [validLabels, setValidLabels] = useState([]) 
     useEffect(() => {
         setValidLabels(labels)
-    })
+    }, [labels])
     
     return (
         <div className="labels-panel">
