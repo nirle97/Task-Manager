@@ -17,14 +17,18 @@ function App() {
     .get("/api/tickets")
     .then(tickets => {
       setTickets(tickets.data)
+      filterValidLabels(tickets.data)
       setTicketsToDisplay(tickets.data)
       setTicketsToDisplayLength(tickets.data.length)
-      filterValidLabels(tickets.data)
     })
   }, [])
 
 const filterValidLabels = (tickets) => {
-  const TicketsWithValidLabels = tickets.filter(ticket => ticket.labels.length > 0)
+  const TicketsWithValidLabels = tickets.filter(ticket => {
+    if (ticket.labels) {
+      return true
+    } return false
+  })
   const validLabelsArr = []
   TicketsWithValidLabels.forEach(ticket => {
     ticket.labels.forEach(label => {
@@ -64,6 +68,9 @@ const filterByLabel = (e) => {
 
 const showAll = () => {
   setTicketsToDisplay(tickets)
+  setTicketsToDisplayLength(200)
+  const input = document.getElementById("searchInput")
+  input.value=""
 }
 
   return (
