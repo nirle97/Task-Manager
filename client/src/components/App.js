@@ -30,14 +30,14 @@ const filterSearch = (e) => {
 }
 
 const hideTicket = (e) => {
-  e.target.parentElement.hidden = true
+  e.target.parentElement.style.display = "none"
   setHiddenCounter(hiddenCounter + 1)
   setHiddenTicketsArr(hiddenTicketsArr.concat([e.target.parentElement]))
   setTicketsToDisplayLength(ticketsToDisplay.length - (hiddenTicketsArr.concat([e.target.parentElement])).length)
 }
 
 const restoreTickets = () => {
-  hiddenTicketsArr.map(ticket => ticket.hidden = false)
+  hiddenTicketsArr.map(ticket => ticket.style.display = "block")
   setHiddenTicketsArr([])
   setHiddenCounter(0)
   setTicketsToDisplayLength(ticketsToDisplay.length)

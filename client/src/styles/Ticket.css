@@ -1,10 +1,9 @@
 .ticket {
     position: relative;
     display: block;
-    padding: 0 10px;
+    padding: 5px 10px;
     align-items: center;
     width: 80%;
-    /* height: auto;  */
     text-align: center;
     border: 2px solid blue; 
     margin: 20px auto;
@@ -12,21 +11,57 @@
 }
 .ticket-title {
     position: relative;
-    display: inline;
-    width: 100%;
-    left: 0;
+    display: inline-block;
+    float: left;
     color: rgb(68, 67, 67);
+    width: auto;
+    margin: 0;
+}
+.label {
+    position: relative;
+    display: inline-block;
+    color: white;
+    cursor: pointer;
+    margin: 0 20px;
+    background-color: rgb(236, 129, 147);
+    border-radius: 5px;
+    font-size: 14px;
+    padding: 2px 5px;
+}
+.label:hover {
+    background-color: white;
+    border: 1px solid rgb(236, 129, 147);
+    color: rgb(236, 129, 147);
+    padding: 2px 5px;
+
 }
 .hideTicketButton {
-    position: relative;
-    top: 0;
-    display: inline;
+    position: absolute;
+    right: 20px;
+    top: 3px;
+    color: rgb(36, 178, 235);
+    display: inline-block;
     text-decoration: underline;
-
+    cursor: pointer;
+    padding: 2px 5px;
+}
+.hideTicketButton:hover {
+    background-color: rgba(68, 67, 67, 0.1);
+    border-radius: 5px;
+    padding: 2px 5px;
 }
 .ticket-content {
     display: block;
+    text-align: left;
+    margin-top: 40px;
 }
 .info {
     display: block;
+    text-align: left;
+    color: rgba(68, 67, 67, 0.6);
+    font-size: 14px;
+}
+.info span{
+    cursor: pointer;
+    color: rgb(36, 178, 235);
 }
