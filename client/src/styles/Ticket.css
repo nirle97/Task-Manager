@@ -1,0 +1,32 @@
+.ticket {
+    position: relative;
+    display: block;
+    padding: 0 10px;
+    align-items: center;
+    width: 80%;
+    /* height: auto;  */
+    text-align: center;
+    border: 2px solid blue; 
+    margin: 20px auto;
+    background-color: aliceblue;
+}
+.ticket-title {
+    position: relative;
+    display: inline;
+    width: 100%;
+    left: 0;
+    color: rgb(68, 67, 67);
+}
+.hideTicketButton {
+    position: relative;
+    top: 0;
+    display: inline;
+    text-decoration: underline;
+
+}
+.ticket-content {
+    display: block;
+}
+.info {
+    display: block;
+}

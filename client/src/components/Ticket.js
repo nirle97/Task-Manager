@@ -6,8 +6,8 @@ import env from "react-dotenv";
 function Ticket({title, content, userEmail, creationTime, labels, hideTicket}) {
     return (
         <div className="ticket">
-            <button onClick={hideTicket} className="hideTicketButton">Hide</button>
             <h3 className="ticket-title">{title}</h3>
+            <a onClick={hideTicket} className="hideTicketButton">Hide</a>
             <p className="ticket-content">{content}</p>
             <span className="info">{userEmail} | {creationTime}</span>
             {labels.length > 0 &&
