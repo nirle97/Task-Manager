@@ -80,8 +80,8 @@ const showAll = () => {
     <div className="App">
       <h1 className="page-title">Task Manager</h1>
       <input id="searchInput" type="text" onChange={filterSearch} placeholder="Filter Results"></input>
-      <p id="hideTicketsCounter">
-        showing {ticketsToDisplayLength} results ({hiddenCounter} hidden tickets) -
+      <p className="hideTicketsCounter">
+        showing {ticketsToDisplayLength} results (<span id="hideTicketsCounter">{hiddenCounter}</span>hidden tickets) -
         <a onClick={restoreTickets} id="restoreHideTickets">Restore</a>
       </p>
       <LabelsSearch 

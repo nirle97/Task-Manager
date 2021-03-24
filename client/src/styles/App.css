@@ -40,12 +40,15 @@ body {
     border-image-slice: 1;
 }
 
-#hideTicketsCounter {
+.hideTicketsCounter {
     display: flex;
     align-items: center;
     justify-content: center;
     color: white;
     font-style: italic;
+}
+#hideTicketsCounter{
+    margin-right: 5px;
 }
 #restoreHideTickets {
     margin-left: 5px;
