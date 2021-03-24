@@ -5,3 +5,13 @@
     font-size: 15px;
     position: relative;
 }
+.show-all {
+    background-color: rgb(36, 178, 235);
+    border: 2px solid transparent;
+
+}
+.show-all:hover {
+    border: 2px solid rgb(36, 178, 235);
+    color: rgb(36, 178, 235);
+    background-color: white;
+}

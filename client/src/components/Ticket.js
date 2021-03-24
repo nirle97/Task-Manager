@@ -3,13 +3,13 @@ import '../styles/Ticket.css';
 import React, {useState, useEffect} from "react";
 import env from "react-dotenv";
 
-function Ticket({title, content, userEmail, creationTime, labels, hideTicket, onClick}) {
+function Ticket({title, content, userEmail, creationTime, labels, hideTicket, filterByLabel}) {
     return (
         <div className="ticket">
             <h3 className="ticket-title">{title}</h3>
             <span>
                 {labels.length > 0 &&
-                    labels.map((label, i) => <span onClick={onClick} key={`label - ${i}`} className="label">{label} </span>)
+                    labels.map((label, i) => <span onClick={filterByLabel} key={`label - ${i}`} className="label">{label} </span>)
                 }
             </span>
             <a onClick={hideTicket} className="hideTicketButton">Hide</a>

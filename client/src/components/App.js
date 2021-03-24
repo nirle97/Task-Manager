@@ -59,6 +59,11 @@ const filterByLabel = (e) => {
   const labelTarget = e.target.innerText;
   const filterdTickets = tickets.filter(ticket => ticket.labels.includes(labelTarget));
   setTicketsToDisplay(filterdTickets);
+  setTicketsToDisplayLength(filterdTickets.length)
+}
+
+const showAll = () => {
+  setTicketsToDisplay(tickets)
 }
 
   return (
@@ -71,7 +76,8 @@ const filterByLabel = (e) => {
       </p>
       <LabelsSearch 
         labels={validLabels}
-        onClick={filterByLabel}
+        filterByLabel={filterByLabel}
+        showAll={showAll}
       />
       {ticketsToDisplay.map((ticket, i) => 
         <Ticket 
@@ -83,7 +89,7 @@ const filterByLabel = (e) => {
           creationTime={ticket.creationTime}
           labels={ticket.labels}
           hideTicket={hideTicket}
-          onClick={filterByLabel}
+          filterByLabel={filterByLabel}
         />
       )}
     </div>
