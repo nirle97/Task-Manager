@@ -2,6 +2,7 @@ import axios from "axios";
 import React, {useState, useEffect} from "react";
 import "../styles/App.css";
 import Ticket from "./Ticket"
+import LabelsSearch from "./LabelsSearch"
 
 function App() {
   const [tickets, setTickets] = useState([])
@@ -9,6 +10,7 @@ function App() {
   const [ticketsToDisplayLength, setTicketsToDisplayLength] = useState(0)
   const [hiddenCounter, setHiddenCounter] = useState(0)
   const [hiddenTicketsArr, setHiddenTicketsArr] = useState([])
+  const [validLabels, setValidLabels] = useState([])
 
   useEffect(() => {
     axios
@@ -17,9 +19,20 @@ function App() {
       setTickets(tickets.data)
       setTicketsToDisplay(tickets.data)
       setTicketsToDisplayLength(tickets.data.length)
+      filterValidLabels(tickets.data)
     })
   }, [])
 
+const filterValidLabels = (tickets) => {
+  const TicketsWithValidLabels = tickets.filter(ticket => ticket.labels.length > 0)
+  const validLabelsArr = []
+  TicketsWithValidLabels.forEach(ticket => {
+    ticket.labels.forEach(label => {
+      if (!validLabelsArr.includes(label)) validLabelsArr.push(label)
+    })
+  }) 
+  setValidLabels(validLabelsArr)
+}
 const filterSearch = (e) => {
   const searchedText = e.target.value;
   axios.get(`/api/tickets/?searchText=${searchedText}`)
@@ -42,6 +55,11 @@ const restoreTickets = () => {
   setHiddenCounter(0)
   setTicketsToDisplayLength(ticketsToDisplay.length)
 }
+const filterByLabel = (e) => {
+  const labelTarget = e.target.innerText;
+  const filterdTickets = tickets.filter(ticket => ticket.labels.includes(labelTarget));
+  setTicketsToDisplay(filterdTickets);
+}
 
   return (
     <div className="App">
@@ -51,18 +69,23 @@ const restoreTickets = () => {
         showing {ticketsToDisplayLength} results ({hiddenCounter} hidden tickets) -
         <a onClick={restoreTickets} id="restoreHideTickets">Restore</a>
       </p>
-        {ticketsToDisplay.map((ticket, i) => 
-          <Ticket 
-            key={`ticket - ${i}`}
-            title={ticket.title}
-            content={ticket.content}
-            userEmail={ticket.userEmail}
-            done={ticket.done}
-            creationTime={ticket.creationTime}
-            labels={ticket.labels}
-            hideTicket={hideTicket}
-          />
-        )}
+      <LabelsSearch 
+        labels={validLabels}
+        onClick={filterByLabel}
+      />
+      {ticketsToDisplay.map((ticket, i) => 
+        <Ticket 
+          key={`ticket - ${i}`}
+          title={ticket.title}
+          content={ticket.content}
+          userEmail={ticket.userEmail}
+          done={ticket.done}
+          creationTime={ticket.creationTime}
+          labels={ticket.labels}
+          hideTicket={hideTicket}
+          onClick={filterByLabel}
+        />
+      )}
     </div>
   )
 }
