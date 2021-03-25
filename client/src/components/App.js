@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useRef} from "react";
 import "../styles/App.css";
 import Ticket from "./Ticket"
 import LabelsSearch from "./LabelsSearch"
@@ -11,15 +11,18 @@ function App() {
   const [hiddenCounter, setHiddenCounter] = useState(0)
   const [hiddenTicketsArr, setHiddenTicketsArr] = useState([])
   const [validLabels, setValidLabels] = useState([])
+  const isPageMounted = useRef(false)
+  const noFilterResults = useRef(false)
 
   useEffect(() => {
     axios
     .get("/api/tickets")
     .then(tickets => {
-      setTickets(tickets.data)
-      filterValidLabels(tickets.data)
-      setTicketsToDisplay(tickets.data)
-      setTicketsToDisplayLength(tickets.data.length)
+      isPageMounted.current = true;
+      setTickets(tickets.data);
+      filterValidLabels(tickets.data);
+      setTicketsToDisplay(tickets.data);
+      setTicketsToDisplayLength(tickets.data.length);
     })
   }, [])
 
@@ -41,8 +44,11 @@ const filterSearch = (e) => {
   const searchedText = e.target.value;
   axios.get(`/api/tickets/?searchText=${searchedText}`)
   .then(filterSearch => {
-    setTicketsToDisplay(filterSearch.data)
-    setTicketsToDisplayLength(filterSearch.data.length)
+  filterSearch.data.length > 0
+  ? noFilterResults.current = false
+  : noFilterResults.current = true
+  setTicketsToDisplay(filterSearch.data)
+  setTicketsToDisplayLength(filterSearch.data.length)
   })
 }
 
@@ -55,11 +61,13 @@ const hideTicket = (e) => {
 }
 
 const restoreTickets = () => {
-  const parentDiv = document.querySelector(".tickets-container")
-  hiddenTicketsArr.map(ticket => parentDiv.prepend(ticket))
-  setHiddenTicketsArr([])
-  setHiddenCounter(0)
-  setTicketsToDisplayLength(ticketsToDisplay.length)
+  if (!noFilterResults.current) {
+    const parentDiv = document.querySelector(".tickets-container")
+    hiddenTicketsArr.map(ticket => parentDiv.prepend(ticket))
+    setHiddenTicketsArr([])
+    setHiddenCounter(0)
+    setTicketsToDisplayLength(ticketsToDisplay.length)
+  }
 }
 
 const filterByLabel = (e) => {
@@ -72,44 +80,56 @@ const filterByLabel = (e) => {
 const showAll = () => {
   setTicketsToDisplay(tickets)
   setTicketsToDisplayLength(200)
+  setHiddenCounter(0)
+  const parentDiv = document.querySelector(".tickets-container")
+  hiddenTicketsArr.map(ticket => parentDiv.prepend(ticket))  
+  setHiddenTicketsArr([])
+  noFilterResults.current = false
   const input = document.getElementById("searchInput")
   input.value=""
 }
 
-  return (
-    <div className="App">
-      <h1 className="page-title">Task Manager</h1>
-      <input 
-        id="searchInput" 
-        type="text" 
-        onChange={filterSearch} 
-        placeholder="Filter Results">
-      </input>
-      <p className="hideTicketsCounter">
-        showing {ticketsToDisplayLength} results (<span id="hideTicketsCounter">{hiddenCounter}</span>hidden tickets) -
-        <a onClick={restoreTickets} id="restoreHideTickets">Restore</a>
-      </p>
-      <LabelsSearch 
-        labels={validLabels}
-        filterByLabel={filterByLabel}
-        showAll={showAll}
-      />
-      <div className="tickets-container">
-        {ticketsToDisplay.map((ticket, i) => 
-          <Ticket 
-            key={`ticket - ${i}`}
-            title={ticket.title}
-            content={ticket.content}
-            userEmail={ticket.userEmail}
-            done={ticket.done}
-            creationTime={ticket.creationTime}
-            labels={ticket.labels}
-            hideTicket={hideTicket}
-            filterByLabel={filterByLabel}
-          />
-        )}
+return (
+  <>
+    {!isPageMounted.current ? <><img src="./spinner.gif"></img><h1>Loading...</h1></> : 
+      <div className="App">
+        <h1 className="page-title">Task Manager</h1>
+        <input 
+          id="searchInput" 
+          type="text" 
+          onChange={filterSearch} 
+          placeholder="Filter Results">
+        </input>
+        <p className="hideTicketsCounter">
+          showing {ticketsToDisplayLength} results (<span id="hideTicketsCounter">{hiddenCounter}</span>hidden tickets) -
+          <a onClick={restoreTickets} id="restoreHideTickets">Restore</a>
+        </p>
+        <LabelsSearch 
+          labels={validLabels}
+          filterByLabel={filterByLabel}
+          showAll={showAll}
+        />
+          {noFilterResults.current ? <>
+          <img src="./noResults.png" id="no-results"></img>
+          <h1 className="no-results">No Such Ticket 🤷🏻‍♂️</h1></> :
+          <div className="tickets-container">
+            {ticketsToDisplay.map((ticket, i) => 
+            <Ticket 
+              key={`ticket - ${i}`}
+              title={ticket.title}
+              content={ticket.content}
+              userEmail={ticket.userEmail}
+              done={ticket.done}
+              creationTime={ticket.creationTime}
+              labels={ticket.labels}
+              hideTicket={hideTicket}
+              filterByLabel={filterByLabel}
+            />
+          )}
+        </div>}
       </div>
-    </div>
+    }
+  </>
   )
 }
 export default App;
