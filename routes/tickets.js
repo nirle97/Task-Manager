@@ -13,12 +13,10 @@ tickets.get("/", (req, res) => {
                     let title = ticket.title.toLowerCase();
                     let searchedText = req.query.searchText.toLowerCase();
                     return title.includes(searchedText)
-                } 
-                )
-                res.status(200).send(filteredTickets)
-            } else {
-                res.status(200).send(tickets)
+                })
+                return res.status(200).send(filteredTickets)
             }
+            return res.status(200).send(tickets)
         })
     } catch(e) {
         console.log(e);
@@ -28,9 +26,12 @@ tickets.get("/", (req, res) => {
 
 tickets.patch("/:ticketId/:status", async (req, res) => {
     const status = req.params.status === "done" ? true : req.params.status === "undone" ? false : "invalid"
-    if (status === "invalid") return res.status(404).send({Error: "Invalid status (needs to be done or undone)"})
+    if (status === "invalid") return res.status(404).send({Error: "Invalid URL (needs to be done or undone)"})
     try {
-        await Tickets.findOneAndUpdate({"_id": req.params.ticketId}, {"done": status}, {new: true});
+        await Tickets.findOneAndUpdate(
+            {"_id": req.params.ticketId},
+            {"done": status},
+            {new: true});
         res.status(200).send({updated: true})
 
     } catch(e) {

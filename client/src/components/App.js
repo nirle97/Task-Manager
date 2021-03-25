@@ -25,18 +25,18 @@ function App() {
 
 const filterValidLabels = (tickets) => {
   const TicketsWithValidLabels = tickets.filter(ticket => {
-    if (ticket.labels) {
-      return true
-    } return false
+    if (ticket.labels) return true
+    return false
   })
   const validLabelsArr = []
   TicketsWithValidLabels.forEach(ticket => {
     ticket.labels.forEach(label => {
-      if (!validLabelsArr.includes(label)) validLabelsArr.push(label)
+    if (!validLabelsArr.includes(label)) validLabelsArr.push(label)
     })
   }) 
   setValidLabels(validLabelsArr)
 }
+
 const filterSearch = (e) => {
   const searchedText = e.target.value;
   axios.get(`/api/tickets/?searchText=${searchedText}`)
@@ -47,21 +47,21 @@ const filterSearch = (e) => {
 }
 
 const hideTicket = (e) => {
-  // e.target.parentElement.style.display = "none"
-  e.target.parentElement.remove()
+  const ticketDiv = e.target.parentElement;
+  ticketDiv.remove()
   setHiddenCounter(hiddenCounter + 1)
-  setHiddenTicketsArr(hiddenTicketsArr.concat([e.target.parentElement]))
-  setTicketsToDisplayLength(ticketsToDisplay.length - (hiddenTicketsArr.concat([e.target.parentElement])).length)
+  setHiddenTicketsArr(hiddenTicketsArr.concat([ticketDiv]))
+  setTicketsToDisplayLength(ticketsToDisplay.length - (hiddenTicketsArr.concat([ticketDiv])).length)
 }
 
 const restoreTickets = () => {
-  // hiddenTicketsArr.map(ticket => ticket.style.display = "block")
   const parentDiv = document.querySelector(".tickets-container")
   hiddenTicketsArr.map(ticket => parentDiv.prepend(ticket))
   setHiddenTicketsArr([])
   setHiddenCounter(0)
   setTicketsToDisplayLength(ticketsToDisplay.length)
 }
+
 const filterByLabel = (e) => {
   const labelTarget = e.target.innerText;
   const filterdTickets = tickets.filter(ticket => ticket.labels.includes(labelTarget));
@@ -79,7 +79,12 @@ const showAll = () => {
   return (
     <div className="App">
       <h1 className="page-title">Task Manager</h1>
-      <input id="searchInput" type="text" onChange={filterSearch} placeholder="Filter Results"></input>
+      <input 
+        id="searchInput" 
+        type="text" 
+        onChange={filterSearch} 
+        placeholder="Filter Results">
+      </input>
       <p className="hideTicketsCounter">
         showing {ticketsToDisplayLength} results (<span id="hideTicketsCounter">{hiddenCounter}</span>hidden tickets) -
         <a onClick={restoreTickets} id="restoreHideTickets">Restore</a>
@@ -107,5 +112,4 @@ const showAll = () => {
     </div>
   )
 }
-
 export default App;

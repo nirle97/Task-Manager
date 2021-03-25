@@ -3,10 +3,9 @@ import '../styles/LabelsSearch.css';
 import React, {useState, useEffect} from "react";
 
 function LabelsSearch({labels, filterByLabel, showAll}) {
-    const [validLabels, setValidLabels] = useState([]) 
-    useEffect(() => {
-        setValidLabels(labels)
-    }, [labels])
+const [validLabels, setValidLabels] = useState([]) 
+
+useEffect(() => setValidLabels(labels), [labels])
     
     return (
         <div className="labels-panel">
