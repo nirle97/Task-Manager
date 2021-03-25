@@ -14,9 +14,13 @@ link to deployed app in heroku service: https://task-manager-nir.herokuapp.com
 ## Client
 
 - Each ticket has a title, content, user's email, date of creation, labels and a hide button:
+
  ![ticketcomponent](./readme-files/ticket.png)
+ 
 - The app has a search input that request the server onChange with relevant `searchText` param and filter the list accordingly.
 - It is possible to filter the list by `label` name by choosing the wanted label on the label panel below the input search box.
 - The hide button is hiding the tickets from view and a update the designated counter of number of hiding tickets.
 - There is a button to `restore` the hidden ticket list on click and a button `show all` button that cleans all the filters and reset the tickets list.
+
+
 ![usergif](./readme-files/user.gif)
