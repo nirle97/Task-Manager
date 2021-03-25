@@ -35,6 +35,11 @@
     padding: 2px 5px;
 
 }
+.all-ticket-lables {
+   position: relative;
+   float: right;
+   margin-right: 40px;
+}
 .hideTicketButton {
     position: absolute;
     right: 20px;

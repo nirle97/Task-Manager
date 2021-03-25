@@ -5,7 +5,7 @@ function Ticket({title, content, userEmail, creationTime, labels, hideTicket, fi
     return (
         <div className="ticket">
             <h3 className="ticket-title">{title}</h3>
-            <span>
+            <span className="all-ticket-lables">
                 {labels &&
                 labels.map((label, i) => 
                     <span className="label"
